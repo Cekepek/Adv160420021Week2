@@ -6,23 +6,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.fragment_game.*
+import kotlinx.android.synthetic.main.fragment_result.*
 
-class MainFragment : Fragment() {
+class ResultFragment : Fragment() {
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_result, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //kalau versi electric eel harus val btnStart = view.findViewById<Button>(R.id.btnStart) dulu
+        if(arguments != null){
+            val score = ResultFragmentArgs.fromBundle(requireArguments()).answer
+            txtScore.text = "Your Score is $score"
+        }
 
-        btnStart.setOnClickListener{
-            val playerName = txtName.text.toString()
-            val action = MainFragmentDirections.actionGameFragment(playerName)
+        btnBack.setOnClickListener {
+            val action = ResultFragmentDirections.actionMainFragment()
             Navigation.findNavController(it).navigate(action)
         }
     }
